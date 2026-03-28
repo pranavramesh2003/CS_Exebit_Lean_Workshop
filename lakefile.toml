@@ -1,7 +1,6 @@
-name = "LeanLangur"
+name = "CSExebit"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["LeanLangur"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -16,6 +15,3 @@ name = "LeanLangur"
 
 [[lean_lib]]
 name = "LoVe"
-
-[[lean_exe]]
-name = "quicksort"
