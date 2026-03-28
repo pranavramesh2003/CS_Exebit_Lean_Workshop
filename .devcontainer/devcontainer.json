@@ -1,7 +1,6 @@
 {
-    "name": "sal (Build From Scratch)",
-    "dockerFile": "Dockerfile",
-    "context": "..",
+    "name": "SAL - Lean 4.28.0 (Prebuilt)",
+    "image": "pranavramesh2003/sal:v4.28.0",
     "remoteUser": "lean",
     "workspaceFolder": "/workspace",
     "customizations": {
@@ -36,6 +35,6 @@
     "updateContentCommand": "",
     "forwardPorts": [],
     "remoteEnv": {
-        "LEAN_PATH": "/home/lean/.elan/toolchains/leanprover--lean4---v4.26.0/lib/lean/library"
+        "LEAN_PATH": "/home/lean/.elan/toolchains/leanprover--lean4---v4.28.0/lib/lean/library"
     }
 }

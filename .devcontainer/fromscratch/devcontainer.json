@@ -36,6 +36,6 @@
     "updateContentCommand": "",
     "forwardPorts": [],
     "remoteEnv": {
-        "LEAN_PATH": "/home/lean/.elan/toolchains/leanprover--lean4---v4.26.0/lib/lean/library"
+        "LEAN_PATH": "/home/lean/.elan/toolchains/leanprover--lean4---v4.28.0/lib/lean/library"
     }
 }
