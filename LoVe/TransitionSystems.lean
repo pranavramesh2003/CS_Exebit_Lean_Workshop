@@ -1,6 +1,7 @@
 import Mathlib
 import Aesop
 
+@[simp]
 def fact (n : ℕ) : ℕ :=
   match n with
   | 0 => 1
@@ -101,3 +102,125 @@ inductive reachable {state : Type} (sys : trsys state) (st : state) : Prop where
    Here's a general definition, in terms of an arbitrary
    transition system.
 -/
+
+def invariantFor {state}
+  (sys : trsys state) (invariant : state -> Prop) :=
+    forall s, sys.Initial s
+              -> forall s', sys.Step ^* s s'
+                            -> invariant s'
+
+
+/-
+That is, when we begin in an initial state and take any
+   number of steps, the place we wind up always satisfies the invariant.
+-/
+
+lemma use_invariant' : forall {state} (sys : trsys state)
+  (invariant : state -> Prop) s s',
+  invariantFor sys invariant
+  -> sys.Initial s
+  -> sys.Step^* s s'
+  -> invariant s' := by
+  unfold invariantFor
+  intros state sys invariant s s' H H0 H1
+  eapply H
+  · assumption
+  · assumption
+
+lemma use_invariant : forall {state} (sys : trsys state)
+  (invariant : state -> Prop) s,
+  invariantFor sys invariant
+  -> reachable sys s
+  -> invariant s := by
+intros state sys invariant s H H0
+cases H0
+rename_i st0 H1 H2
+eapply use_invariant'
+assumption
+assumption
+assumption
+
+
+lemma invariant_induction' : forall {state} (sys : trsys state)
+  (invariant : state -> Prop),
+  (forall s, invariant s -> forall s', sys.Step s s' -> invariant s')
+  -> forall s s', sys.Step^* s s'
+     -> invariant s
+     -> invariant s' := by
+intros state sys invariant H s s' H0 H1
+induction H0 with
+| TrcRefl x1 => assumption
+| TrcFront h x x1 ih h2 h3 =>
+  apply h3
+  eapply H
+  assumption
+  assumption
+
+
+theorem invariant_induction : forall {state} (sys : trsys state)
+  (invariant : state -> Prop),
+  (forall s, sys.Initial s -> invariant s)
+  -> (forall s, invariant s -> forall s', sys.Step s s' -> invariant s')
+  -> invariantFor sys invariant := by
+  unfold invariantFor
+  intros state sys H H0 H1 s H1 s' H2
+  eapply invariant_induction'
+  assumption
+  assumption
+  apply H0
+  assumption
+
+@[simp]
+def fact_invariant (original_input : ℕ) (st : fact_state) : Prop :=
+  match st with
+  | fact_state.AnswerIs ans => fact original_input = ans
+  | fact_state.WithAccumulator n acc => fact original_input = fact n * acc
+
+theorem fact_invariant_ok : forall original_input,
+  invariantFor (factorial_sys original_input) (fact_invariant original_input) :=
+by
+  intro original_input
+  apply invariant_induction
+  intros s H
+  cases H
+  unfold fact_invariant
+  simp
+  intros s H s' H0
+  cases H0
+  rename_i acc
+  simp at *
+  assumption
+  rename_i n acc
+  simp at *
+  linarith
+
+/-  Therefore, every reachable state satisfies this invariant. -/
+theorem fact_invariant_always : forall original_input s,
+  reachable (factorial_sys original_input) s
+  -> fact_invariant original_input s := by
+  intros original_input s H
+  eapply use_invariant
+  apply fact_invariant_ok
+  assumption
+
+lemma fact_ok' : forall original_input s,
+  fact_final s
+  -> fact_invariant original_input s
+  -> s = fact_state.AnswerIs (fact original_input) :=
+by
+  intros original_input s H H0
+  cases H
+  rename_i ans
+  simp at *
+  linarith
+
+lemma fact_ok :  forall original_input s,
+  reachable (factorial_sys original_input) s
+  -> fact_final s
+  -> s = fact_state.AnswerIs (fact original_input) :=
+by
+  intros original_input state H H0
+  apply fact_ok'
+  assumption
+  apply fact_invariant_always
+  assumption
