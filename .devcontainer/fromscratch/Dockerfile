@@ -29,7 +29,7 @@ USER lean
 WORKDIR /home/lean
 
 # Install elan with the specific Lean toolchain version
-RUN curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.26.0
+RUN curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.28.0
 
 # Add elan to PATH for the lean user
 ENV PATH="/home/lean/.elan/bin:${PATH}"

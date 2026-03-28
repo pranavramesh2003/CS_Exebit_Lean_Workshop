@@ -1,6 +1,6 @@
 {
-  "name": "SAL - Lean 4.26.0 (from DockerHub)",
-  "image": "pranavramesh2003/sal:v4.26.0",
+  "name": "SAL - Lean 4.28.0 (from DockerHub)",
+  "image": "pranavramesh2003/sal:v4.28.0",
   "remoteUser": "lean",
   "customizations": {
     "vscode": {
