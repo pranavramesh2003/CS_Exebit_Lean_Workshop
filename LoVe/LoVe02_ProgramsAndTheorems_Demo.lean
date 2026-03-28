@@ -10,10 +10,6 @@ We continue our study of the basics of Lean, focusing on programs and theorems,
 without carrying out any proofs yet. We review how to define new types and
 functions and how to state their intended properties as theorems. -/
 
-
-set_option autoImplicit false
-set_option tactic.hygienic false
-
 namespace LoVe
 
 

@@ -77,14 +77,6 @@ def Renderer.rpcMethod (props : PanelWidgetProps) : RequestM (RequestTask Html) 
       match goal with
       | .app (.app (.app (.const ``findWinningPositionFor _) player) board) _ =>
         let board : BoardState ← unsafe evalExpr BoardState (.const ``BoardState []) board
-        -- let player ← unsafe evalExpr Player (.const ``Player []) player
-        -- let finishButton : Html := if isWinningPositionFor player board then
-        --   let range : Lsp.Range := ⟨props.pos, props.pos⟩
-        --   let newPos := {props.pos with line := props.pos.line + 1 }
-        --   let editProps := MakeEditLinkProps.ofReplaceRange' docMeta range s!"finish" (some ⟨newPos, newPos⟩)
-        --   .ofComponent MakeEditLink editProps #[.text "🏆 Finish!"]
-        -- else
-        --   <p></p>
         return renderBoard docMeta board
       | _ => return <span>Goal is not a `findWinningPositionFor` goal.</span>
   where

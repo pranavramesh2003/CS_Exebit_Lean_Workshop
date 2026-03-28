@@ -1,18 +1,3 @@
-\frametitle{Correctness Lemmas: Filter \& Remove}
-
-  \textbf{Filter membership:}
-  \begin{lstlisting}
-lemma mem_filter {a: Type} [DecidableEq a]
-    (s: set a) (p: a → Bool) (x: a):
-  mem x (filter s p) ↔ (mem x s ∧ p x)
-  \end{lstlisting}
-
-  \textbf{Remove element lemmas:}
-  \begin{lstlisting}
-lemma mem_remove_x {a: Type} [DecidableEq a] (s: set a) (x: a):
-  not (mem x (remove s x))
-
-lemma mem_remove_y {a: Type} [DecidableEq a]
-    (s: set a) (x: a) (y: a) :
-  x != y → mem y (remove s x) == mem y s
-  \end{lstlisting}
+\frametitle{Transition Systems - Page 5}
+  \centering
+  \includegraphics[width=\textwidth,height=0.85\textheight,keepaspectratio]{transition_systems-5.png}
